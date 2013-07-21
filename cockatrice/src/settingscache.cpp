@@ -18,6 +18,7 @@ SettingsCache::SettingsCache()
 	tableBgPath = settings->value("zonebg/table").toString();
 	playerBgPath = settings->value("zonebg/playerarea").toString();
 	cardBackPicturePath = settings->value("paths/cardbackpicture").toString();
+    strServerListPath = settings->value("path/server_list").toString();
 	
 	mainWindowGeometry = settings->value("interface/main_window_geometry").toByteArray();
 	picDownload = settings->value("personal/picturedownload", true).toBool();
@@ -225,4 +226,10 @@ void SettingsCache::setMainWindowGeometry(const QByteArray &_mainWindowGeometry)
 {
 	mainWindowGeometry = _mainWindowGeometry;
 	settings->setValue("interface/main_window_geometry", mainWindowGeometry);
+}
+
+void SettingsCache::setServerListPath(const QString &_strServerListPath) {
+    strServerListPath = _strServerListPath;
+    settings->setValue("paths/server_list", _strServerListPath);
+    emit serverListPathChanged();
 }

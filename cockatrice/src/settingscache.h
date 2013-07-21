@@ -25,6 +25,7 @@ signals:
 	void soundEnabledChanged();
 	void soundPathChanged();
 	void ignoreUnregisteredUsersChanged();
+    void serverListPathChanged();
 private:
 	QSettings *settings;
 	
@@ -32,6 +33,7 @@ private:
 	QString lang;
 	QString deckPath, replaysPath, picsPath, cardDatabasePath, tokenDatabasePath;
 	QString handBgPath, stackBgPath, tableBgPath, playerBgPath, cardBackPicturePath;
+    QString strServerListPath;
 	bool picDownload;
 	bool doubleClickToPlay;
 	bool playToStack;
@@ -61,6 +63,7 @@ public:
 	QString getTableBgPath() const { return tableBgPath; }
 	QString getPlayerBgPath() const { return playerBgPath; }
 	QString getCardBackPicturePath() const { return cardBackPicturePath; }
+    QString getServerListPath() const { return strServerListPath; }
 	bool getPicDownload() const { return picDownload; }
 	bool getDoubleClickToPlay() const { return doubleClickToPlay; }
 	bool getPlayToStack() const { return playToStack; }
@@ -106,6 +109,7 @@ public slots:
 	void setSoundPath(const QString &_soundPath);
 	void setPriceTagFeature(int _priceTagFeature);
 	void setIgnoreUnregisteredUsers(bool _ignoreUnregisteredUsers);
+    void setServerListPath(const QString &_strServerListPath);
 };
 
 extern SettingsCache *settingsCache;
