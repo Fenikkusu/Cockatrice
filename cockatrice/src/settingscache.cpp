@@ -1,5 +1,7 @@
 #include "settingscache.h"
 #include <QSettings>
+#include <QFile>
+#include <QTextStream>
 
 SettingsCache::SettingsCache()
 {
@@ -232,4 +234,52 @@ void SettingsCache::setServerListPath(const QString &_strServerListPath) {
     strServerListPath = _strServerListPath;
     settings->setValue("paths/server_list", _strServerListPath);
     emit serverListPathChanged();
+}
+
+
+void SettingsCache::buildServerList(const QString &_strPath) {
+    QFile hndXml(_strPath);
+    hndXml.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream objXmlStream(&hndXml);
+
+    objXmlStream << "<?xml version=\"1.0\" encoding\"UTF-8\"?>"
+        "<servers xmlns=\"http://cockatrice/serverlist\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://cockatrice/serverlist servers.xsd\">"
+            "<server>"
+                "<name>WoogerWorks</name>"
+                "<host>cockatrice.woogerworks.com</host>"
+                "<port>4747</port>"
+            "</server>"
+        "</servers>";
+
+    hndXml.close();
+
+    QString _strSchema(_strPath);
+    _strSchema.replace(QString(".xml"), ".xsd");
+
+    QFile hndSchema(_strSchema);
+    hndSchema.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream objScheamStream(&hndSchema);
+
+    objScheamStream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        "<xsd:schema xmlns=\"http://cockatrice/serverlist\"  targetNamespace=\"http://cockatrice/serverlist\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\">"
+            "<xsd:element name=\"servers\">"
+                "<xsd:complexType>"
+                    "<xsd:sequence>"
+                        "<xsd:element name=\"server\" minOccurs=\"1\" maxOccurs=\"unbounded\">"
+                            "<xsd:complexType>"
+                                "<xsd:sequence>"
+                                    "<xsd:element name=\"name\" />"
+                                    "<xsd:element name=\"host\" />"
+                                    "<xsd:element name=\"port\" />"
+                                    "<xsd:element name=\"user\" minOccurs=\"0\" />"
+                                    "<xsd:element name=\"pass\" minOccurs=\"0\" />"
+                                "</xsd:sequence>"
+                            "</xsd:complexType>"
+                        "</xsd:element>"
+                    "</xsd:sequence>"
+                "</xsd:complexType>"
+            "</xsd:element>"
+        "</xsd:schema>";
+
+    hndSchema.close();
 }

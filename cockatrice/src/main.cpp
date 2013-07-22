@@ -125,6 +125,15 @@ int main(int argc, char *argv[])
 			settingsCache->setCardDatabasePath(dataDir + "/cards.xml");
 	if (settingsCache->getTokenDatabasePath().isEmpty())
 		settingsCache->setTokenDatabasePath(dataDir + "/tokens.xml");
+
+    if (settingsCache->getServerListPath().isEmpty()) {
+        settingsCache->setServerListPath(dataDir + "/servers.xml");
+    }
+
+    if (!QFile(settingsCache->getServerListPath()).exists()) {
+        settingsCache->buildServerList(settingsCache->getServerListPath());
+    }
+
 	if (!QDir(settingsCache->getDeckPath()).exists() || settingsCache->getDeckPath().isEmpty()) {
 		QDir().mkpath(dataDir + "/decks");
 		settingsCache->setDeckPath(dataDir + "/decks");

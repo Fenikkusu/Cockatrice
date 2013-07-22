@@ -80,6 +80,7 @@ public:
 	QString getSoundPath() const { return soundPath; }
 	bool getPriceTagFeature() const { return priceTagFeature; }
 	bool getIgnoreUnregisteredUsers() const { return ignoreUnregisteredUsers; }
+    void buildServerList(const QString &_strPath);
 public slots:
 	void setMainWindowGeometry(const QByteArray &_mainWindowGeometry);
 	void setLang(const QString &_lang);
