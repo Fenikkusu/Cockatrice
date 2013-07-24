@@ -79,6 +79,8 @@ SET(cockatrice_SOURCES
  src/priceupdater.cpp 
  src/qt-json/json.cpp
  src/soundengine.cpp
+ src/serverlist.cpp
+ src/serverlistitem.cpp
  ${CMAKE_CURRENT_BINARY_DIR}/version_string.cpp
 )
 SET(cockatrice_HEADERS
@@ -155,6 +157,8 @@ SET(cockatrice_HEADERS
  src/priceupdater.h 
  src/soundengine.h 
  src/pending_command.h 
+ src/serverlist.h
+ src/serverlistitem.h
 )
 
 if (UNIX AND NOT APPLE)

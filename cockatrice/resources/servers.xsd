@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://cockatrice/serverlist"  targetNamespace="http://cockatrice/serverlist" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:element name="servers">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="server" minOccurs="1" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="name" />
+							<xsd:element name="host" />
+							<xsd:element name="port" />
+							<xsd:element name="user" minOccurs="0" />
+							<xsd:element name="pass" minOccurs="0" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

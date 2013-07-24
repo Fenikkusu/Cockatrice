@@ -254,7 +254,7 @@ void SettingsCache::buildServerList(const QString &_strPath) {
     hndXml.close();
 
     QString _strSchema(_strPath);
-    _strSchema.replace(QString(".xml"), ".xsd");
+    _strSchema.replace(".xml", ".xsd");
 
     QFile hndSchema(_strSchema);
     hndSchema.open(QIODevice::WriteOnly | QIODevice::Text);
