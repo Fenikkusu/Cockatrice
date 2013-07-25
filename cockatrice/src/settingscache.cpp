@@ -242,7 +242,7 @@ void SettingsCache::buildServerList(const QString &_strPath) {
     hndXml.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream objXmlStream(&hndXml);
 
-    objXmlStream << "<?xml version=\"1.0\" encoding\"UTF-8\"?>"
+    objXmlStream << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
         "<servers xmlns=\"http://cockatrice/serverlist\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://cockatrice/serverlist servers.xsd\">"
             "<server>"
                 "<name>WoogerWorks</name>"

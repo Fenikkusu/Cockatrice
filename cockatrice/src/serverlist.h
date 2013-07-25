@@ -12,6 +12,8 @@ class ServerList : public QObject {
     public:
         ServerList(const QString &strServerList = "");
         QHash<QString, ServerListItem*> getServers();
+        ServerListItem* getServer(QString strName);
+        bool hasServer(QString strName);
     protected:
         void _parseServer(QXmlStreamReader &objDoc);
         QHash<QString, ServerListItem*> _lstServers;

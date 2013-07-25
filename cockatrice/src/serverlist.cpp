@@ -11,11 +11,11 @@
 #include <QStringList>
 
 ServerList::ServerList(const QString &strServerList) : QObject(), _strPath(strServerList) {
-    if (_strPath == "") {
-        _strPath = settingsCache->getServerListPath();
+    if (this->_strPath == "") {
+        this->_strPath = settingsCache->getServerListPath();
     }
 /*
-    QString strSchema(_strPath);
+    QString strSchema(this->_strPath);
     strSchema.replace(".xml", ".xsd");
 
     QXmlSchema objSchema;
@@ -26,24 +26,23 @@ ServerList::ServerList(const QString &strServerList) : QObject(), _strPath(strSe
     }
 
     QXmlSchemaValidator objValidator(objSchema);
-    if (!objValidator.validate(QUrl(_strPath))) {
+    if (!objValidator.validate(QUrl(this->_strPath))) {
         qDebug() << "Server List Does Not Validate Against Schema";
         return;
     }
 */
-    QFile hndFile(_strPath);
+    qDebug() << "ServerList Path: " << this->_strPath;
+
+    QFile hndFile(this->_strPath);
     hndFile.open(QIODevice::ReadOnly);
     if (!hndFile.isOpen()) {
+        qDebug() << "Server List File Not Opened: " << this->_strPath;
         return;
     }
 
     QXmlStreamReader objDoc(&hndFile);
-
     while(!objDoc.atEnd()) {
-        if (objDoc.readNext() == QXmlStreamReader::EndElement) {
-            break;
-        }
-
+        objDoc.readNext();
         if (objDoc.name() == "server") {
             this->_parseServer(objDoc);
         }
@@ -52,17 +51,17 @@ ServerList::ServerList(const QString &strServerList) : QObject(), _strPath(strSe
 
 void ServerList::_parseServer(QXmlStreamReader &objDoc) {
     QString strName, strHost, strUser, strPass;
+    int intPort;
     QStringList lstNames;
     lstNames << "name" << "host" << "user" << "pass" << "port";
-
-    int intPort;
 
     while(!objDoc.atEnd()) {
         if (objDoc.readNext() == QXmlStreamReader::EndElement) {
             break;
         }
 
-        strName = strHost = strUser = strPass = "";
+        strUser = "";
+        strPass = "";
         intPort = 0;
 
         switch(lstNames.indexOf(objDoc.name().toString())) {
@@ -81,12 +80,24 @@ void ServerList::_parseServer(QXmlStreamReader &objDoc) {
             case 4: //"port":
                 intPort = objDoc.readElementText().toInt();
                 break;
+            default:
+                qDebug() << "ServerList::_parseServer::" << objDoc.name() << " Not Found";
         }
     }
 
     this->_lstServers.insert(strName, new ServerListItem(strName, strHost, intPort, strUser, strPass));
+}
 
-    //return *this;
+bool ServerList::hasServer(QString strName) {
+    return this->_lstServers.contains(strName);
+}
+
+ServerListItem* ServerList::getServer(QString strName) {
+    if (!this->hasServer(strName)) {
+        return NULL;
+    }
+
+    return this->_lstServers.value(strName);
 }
 
 QHash<QString, ServerListItem*> ServerList::getServers() { return this->_lstServers; }
